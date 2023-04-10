@@ -4,23 +4,21 @@ import random
 
 class HelloWorldUser(HttpUser):
 
-    session_id = None
+    topic_id = None
 
     @task
     def vote(self):
-        id = self.session_id
-        self.client.post("/session/{}/vote".format(id), json={"vote": random.choice(["YES", "NO"]),
-                                                                  "associate": {
-                                                                    "cpf": CPF.generate()
-                                                                  }})
-        
+        self.client.post("/topics/{}/session/vote".format(self.topic_id), json={"vote": random.choice(["YES", "NO"]),
+                                                                                "associate": {
+                                                                                    "cpf": CPF.generate()
+                                                                                }})
+
 
     def on_start(self):
-        response_topic = self.client.post("/topic", json={"title":"test", "description":"test"}).json()
+        response_topic = self.client.post("/topics", json={"title":"test", "description":"test"}).json()
         print("--------------------------------")
         print(response_topic)
-        topic_id = response_topic["id"]
-        response_session = self.client.post("/session/open", json={"topicId" : topic_id, "timeToVote": 5}).json()
+        self.topic_id = response_topic["id"]
+        response_session = self.client.post("/topics/{}/session/open".format(self.topic_id), json={"timeToVote": 5}).json()
         print("--------------------------------")
         print(response_session)
-        self.session_id = response_session["id"]
