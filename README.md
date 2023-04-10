@@ -21,7 +21,7 @@ não poderam ser acessados em outra.
 
 ### Run
 
-``./docker-compose up -d``
+``docker-compose up -d``
 
 ``./gradlew build``
 
