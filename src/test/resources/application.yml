@@ -1,0 +1,23 @@
+spring:
+  cloud:
+    config:
+      import-check:
+        enabled: false
+  main:
+    banner-mode: "off"
+  jpa:
+    generate-ddl: true
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+  datasource:
+    url: jdbc:h2:mem:test_db
+    username: sa
+    password: password
+  flyway:
+    enabled: false
+
+rest-cpf-validator:
+  name: rest-validator
+  url: http://localhost:3000/validator
