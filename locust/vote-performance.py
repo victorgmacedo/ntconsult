@@ -2,7 +2,7 @@ from locust import HttpUser, task
 from cpf_generator import CPF
 import random
 
-class HelloWorldUser(HttpUser):
+class Vote(HttpUser):
 
     topic_id = None
 
@@ -16,9 +16,5 @@ class HelloWorldUser(HttpUser):
 
     def on_start(self):
         response_topic = self.client.post("/topics", json={"title":"test", "description":"test"}).json()
-        print("--------------------------------")
-        print(response_topic)
         self.topic_id = response_topic["id"]
-        response_session = self.client.post("/topics/{}/session/open".format(self.topic_id), json={"timeToVote": 5}).json()
-        print("--------------------------------")
-        print(response_session)
+        response_session = self.client.post("/topics/{}/session/open".format(self.topic_id), json={"timeToVote": 5})

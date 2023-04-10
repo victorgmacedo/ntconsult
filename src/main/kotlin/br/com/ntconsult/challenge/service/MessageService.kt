@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service
 class MessageService(private val rabbitTemplate: RabbitTemplate,
                      private val objectMapper: ObjectMapper) {
 
-    fun publishMessage(message: Any) {
-        rabbitTemplate.convertAndSend("session.result", objectMapper.writeValueAsString(message))
+    fun publishMessage(routeKey:String, message: Any) {
+        rabbitTemplate.convertAndSend(routeKey, objectMapper.writeValueAsString(message))
     }
 
 }

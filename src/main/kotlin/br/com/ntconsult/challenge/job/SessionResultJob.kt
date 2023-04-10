@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
 import java.util.concurrent.TimeUnit
 
+private const val ROUTE_KEY_SESSION_RESULT = "session.result"
+
 @Component
 class SessionResultJob(private val resultService: ResultService,
                        private val sessionService: SessionService,
@@ -29,7 +31,7 @@ class SessionResultJob(private val resultService: ResultService,
             val resultDetail = resultService.buildResultDetail(session = it)
             it.resultDetail = resultDetail
             sessionService.save(it)
-            messageService.publishMessage(createMessageResult(it, resultDetail))
+            messageService.publishMessage(ROUTE_KEY_SESSION_RESULT, createMessageResult(it, resultDetail))
         }
     }
 
